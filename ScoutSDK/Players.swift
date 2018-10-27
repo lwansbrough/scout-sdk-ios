@@ -2,21 +2,17 @@ import Apollo
 
 public class Players : NSObject {
 
-  var apollo: ApolloClient
+  var apollo: ApolloClient? = nil
 
-  init(withApollo: ApolloClient) {
-    apollo = withApollo
-  }
-
-  public func get(title: String?, identifier: String?, segment: String?, callback: @escaping (_: Error?, _: PlayerQuery.Data.Player?) -> ()) {
-    apollo.fetch(query: PlayerQuery(title: title, identifier: identifier, segment: segment)) { (result, error) in
+  public func get(title: String?, identifier: String?, segment: String? = nil, callback: @escaping (_: Error?, _: PlayerQuery.Data.Player?) -> ()) {
+    apollo!.fetch(query: PlayerQuery(title: title, identifier: identifier, segment: segment)) { (result, error) in
       callback(error, result?.data?.player)
     }
   }
   
-  public func search(platform: String?, console: String?, title: String?, identifier: String?, comprehensive: Bool?, exact: Bool?, callback: @escaping (_: Error?, _: [SearchQuery.Data.Player.Result?]?) -> ()) {
+  public func search(identifier: String? = nil, platform: String? = nil, console: String? = nil, title: String? = nil, comprehensive: Bool = true, exact: Bool = true, callback: @escaping (_: Error?, _: [SearchQuery.Data.Player.Result?]?) -> ()) {
     
-    apollo.fetch(query: SearchQuery(platform: platform, console: console, title: title, identifier: identifier, comprehensive: comprehensive, exact: exact)) { (result, error) in
+    apollo!.fetch(query: SearchQuery(platform: platform, console: console, title: title, identifier: identifier, comprehensive: comprehensive, exact: exact)) { (result, error) in
       callback(error, result?.data?.players?.results)
     }
   }

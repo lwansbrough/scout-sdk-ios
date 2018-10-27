@@ -10,7 +10,11 @@ public class ScoutSDK : NSObject {
 
   var config: ScoutConfiguration? = nil
   var apollo: ApolloClient? = nil
-  public var players: Players? = nil
+  public private(set) var personas: Personas = Personas()
+  public private(set) var players: Players = Players()
+  public private(set) var raw: Raw = Raw()
+  public private(set) var titles: Titles = Titles()
+  public private(set) var users: Users = Users()
 
   private func createApollo(clientId: String, authorizationToken: String?) -> ApolloClient {
     let configuration = URLSessionConfiguration.default
@@ -39,7 +43,7 @@ public class ScoutSDK : NSObject {
   public func configure(withConfig: ScoutConfiguration, completed: @escaping (_: Error?) -> ()) {
     self.config = withConfig
     apollo = createApollo(clientId: config!.clientId, authorizationToken: nil)
-    players = Players(withApollo: apollo!)
+    players.apollo = apollo
     completed(nil)
 //    let issuer = URL(string: ISSUER_URL)
 //    OIDAuthorizationService.discoverConfiguration(forIssuer: issuer!) {

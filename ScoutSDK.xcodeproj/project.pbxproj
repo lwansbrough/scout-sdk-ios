@@ -17,6 +17,10 @@
 		41FDCA452182FE6C00869FF0 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA442182FE6C00869FF0 /* Players.swift */; };
 		41FDCA6621838D4000869FF0 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA6521838D4000869FF0 /* Dynamic.swift */; };
 		41FDCA7A2183F5A500869FF0 /* RawData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA792183F5A500869FF0 /* RawData.swift */; };
+		41FDCA7C2184E9B600869FF0 /* Titles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA7B2184E9B600869FF0 /* Titles.swift */; };
+		41FDCA7E2184E9C200869FF0 /* Personas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA7D2184E9C200869FF0 /* Personas.swift */; };
+		41FDCA802184E9D200869FF0 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA7F2184E9D200869FF0 /* Users.swift */; };
+		41FDCA8421850CCD00869FF0 /* Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FDCA8321850CCD00869FF0 /* Raw.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +36,10 @@
 		41FDCA442182FE6C00869FF0 /* Players.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Players.swift; path = ScoutSDK/Players.swift; sourceTree = SOURCE_ROOT; };
 		41FDCA6521838D4000869FF0 /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		41FDCA792183F5A500869FF0 /* RawData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawData.swift; sourceTree = "<group>"; };
+		41FDCA7B2184E9B600869FF0 /* Titles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Titles.swift; sourceTree = "<group>"; };
+		41FDCA7D2184E9C200869FF0 /* Personas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Personas.swift; sourceTree = "<group>"; };
+		41FDCA7F2184E9D200869FF0 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		41FDCA8321850CCD00869FF0 /* Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Raw.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +81,10 @@
 				4145501D217A963F00ED0E9E /* ScoutSDK.h */,
 				4145501E217A963F00ED0E9E /* Info.plist */,
 				4145502D217AA29700ED0E9E /* ScoutSDK.swift */,
+				41FDCA7B2184E9B600869FF0 /* Titles.swift */,
+				41FDCA7D2184E9C200869FF0 /* Personas.swift */,
+				41FDCA7F2184E9D200869FF0 /* Users.swift */,
+				41FDCA8321850CCD00869FF0 /* Raw.swift */,
 			);
 			path = ScoutSDK;
 			sourceTree = "<group>";
@@ -198,10 +210,14 @@
 			files = (
 				41FDCA7A2183F5A500869FF0 /* RawData.swift in Sources */,
 				4145502C217AA1A700ED0E9E /* ScoutPickFriendsView.swift in Sources */,
+				41FDCA7E2184E9C200869FF0 /* Personas.swift in Sources */,
 				4145502E217AA29700ED0E9E /* ScoutSDK.swift in Sources */,
+				41FDCA802184E9D200869FF0 /* Users.swift in Sources */,
 				41455028217A9AD100ED0E9E /* ScoutUIView.swift in Sources */,
+				41FDCA7C2184E9B600869FF0 /* Titles.swift in Sources */,
 				41FDCA452182FE6C00869FF0 /* Players.swift in Sources */,
 				41FDCA112182D72C00869FF0 /* ScoutConfiguration.swift in Sources */,
+				41FDCA8421850CCD00869FF0 /* Raw.swift in Sources */,
 				41FDCA6621838D4000869FF0 /* Dynamic.swift in Sources */,
 				41FDCA412182EB9500869FF0 /* API.swift in Sources */,
 				4145502A217A9F6800ED0E9E /* ScoutSearchView.swift in Sources */,

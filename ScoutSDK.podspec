@@ -17,8 +17,10 @@ Build powerful gaming community apps with magic. Scout delivers gaming stats to 
 
   s.platform     = :ios, '9.0'
 
-  s.source       = { :git => 'https://github.com/scoutsdk/scout-sdk-ios.git', :tag => '#{s.version}' }
+  s.source       = { :git => 'https://github.com/scoutsdk/scout-sdk-ios.git', :tag => "#{s.version}" }
   s.source_files  = 'ScoutSDK/**/*'
+
+  s.swift_version = '4.2'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
