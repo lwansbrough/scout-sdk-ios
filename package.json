@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "graphql:generate": "apollo schema:download --endpoint=https://api.scoutsdk.com/graph ./ScoutSDK/GraphQL/schema.json --header=\"Scout-App: 2d6fa19a-ec77-4e95-acc8-8aed086174bc\" && apollo codegen:generate --passthroughCustomScalars --queries=\"$(find ./ScoutSDK/GraphQL -name '*.graphql')\" --schema=./ScoutSDK/GraphQL/schema.json ./ScoutSDK/GraphQL/API.swift"
+  },
+  "dependencies": {
+    "apollo": "^1.9.2"
+  }
+}
