@@ -20,7 +20,7 @@ public class ScoutSDK : NSObject {
     ]
 
     if (authorizationToken != nil) {
-      configuration.httpAdditionalHeaders?.updateValue("Bearer \(authorizationToken)", forKey: "Authorization")
+      configuration.httpAdditionalHeaders?.updateValue("Bearer \(authorizationToken!)", forKey: "Authorization")
     }
 
     let graphqlEndpoint = URL(string: GRAPH_URL)!

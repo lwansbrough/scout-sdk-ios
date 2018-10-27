@@ -1,7 +1,7 @@
 import Foundation
 import Apollo
 
-public class Dynamic : JSONDecodable, JSONEncodable {
+public class RawData : JSONDecodable, JSONEncodable {
 
   var _jsonValue: Any
 
