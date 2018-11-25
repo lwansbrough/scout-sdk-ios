@@ -6,10 +6,12 @@ import AdSupport
 public class ScoutSDK : NSObject {
 
   let ISSUER_URL = "https://www.scoutsdk.com"
-  let GRAPH_URL = "https://api.scoutsdk.com/graph"
+  let GRAPH_HTTP_URL = "https://api.scoutsdk.com/graph"
+  let GRAPH_WS_URL = "wss://api.scoutsdk.com/graph"
 
   var config: ScoutConfiguration? = nil
   var apollo: ApolloClient? = nil
+  var apolloWS: ApolloClient? = nil
   public private(set) var personas: Personas = Personas()
   public private(set) var players: Players = Players()
   public private(set) var raw: Raw = Raw()
@@ -26,9 +28,22 @@ public class ScoutSDK : NSObject {
     if (authorizationToken != nil) {
       configuration.httpAdditionalHeaders?.updateValue("Bearer \(authorizationToken!)", forKey: "Authorization")
     }
+    
+    var graphqlWSEndpointComponents = URLComponents(string: GRAPH_WS_URL)!
+    graphqlWSEndpointComponents.queryItems = [
+      URLQueryItem(name: "app", value: clientId),
+      URLQueryItem(name: "device", value: getDeviceId().uuidString),
+      URLQueryItem(name: "access_token", value: authorizationToken)
+    ]
+    
+    let graphqlHTTPEndpoint = URL(string: GRAPH_HTTP_URL)!
+    let graphqlWSEndpoint = graphqlWSEndpointComponents.url!
+    
+    let graphqlWSRequest = URLRequest(url: graphqlWSEndpoint)
+    
+    let splitNetworkTransport = SplitNetworkTransport(httpNetworkTransport: HTTPNetworkTransport(url: graphqlHTTPEndpoint, configuration: configuration), webSocketNetworkTransport: WebSocketTransport(request: graphqlWSRequest))
 
-    let graphqlEndpoint = URL(string: GRAPH_URL)!
-    return ApolloClient(networkTransport: HTTPNetworkTransport(url: graphqlEndpoint, configuration: configuration))
+    return ApolloClient(networkTransport: splitNetworkTransport)
   }
   
   private func getDeviceId() -> UUID {

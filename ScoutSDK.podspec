@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'ScoutSDK'
-  s.version      = '0.1.0'
+  s.version      = '0.1.1'
   s.summary      = 'Build powerful gaming community apps with magic. Scout delivers gaming stats to apps and websites.'
 
   s.description  = <<-DESC
@@ -47,6 +47,7 @@ Build powerful gaming community apps with magic. Scout delivers gaming stats to 
   s.dependency 'GoogleMobileAdsMediationFacebook'
   s.dependency 'FBAudienceNetwork'
   s.dependency 'Apollo'
+  s.dependency 'Apollo/WebSocket'
   s.dependency 'AppAuth'
 
 end

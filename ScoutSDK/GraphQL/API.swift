@@ -818,6 +818,554 @@ public final class PlayerQuery: GraphQLQuery {
   }
 }
 
+public final class PlayerUpdateSubscription: GraphQLSubscription {
+  public let operationDefinition =
+    "subscription PlayerUpdate($title: String, $identifier: String, $segment: String) {\n  player(title: $title, id: $identifier, segment: $segment) {\n    __typename\n    id\n    metadata {\n      __typename\n      key\n      name\n      value\n      displayValue\n    }\n    stats {\n      __typename\n      metadata {\n        __typename\n        key\n        name\n        isReversed\n      }\n      value\n      displayValue\n    }\n    segments {\n      __typename\n      metadata {\n        __typename\n        key\n        name\n        value\n        displayValue\n      }\n      stats {\n        __typename\n        metadata {\n          __typename\n          key\n          name\n          isReversed\n        }\n        value\n        displayValue\n      }\n    }\n  }\n}"
+
+  public var title: String?
+  public var identifier: String?
+  public var segment: String?
+
+  public init(title: String? = nil, identifier: String? = nil, segment: String? = nil) {
+    self.title = title
+    self.identifier = identifier
+    self.segment = segment
+  }
+
+  public var variables: GraphQLMap? {
+    return ["title": title, "identifier": identifier, "segment": segment]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["GraphSubscription"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("player", arguments: ["title": GraphQLVariable("title"), "id": GraphQLVariable("identifier"), "segment": GraphQLVariable("segment")], type: .object(Player.selections)),
+    ]
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(player: Player? = nil) {
+      self.init(unsafeResultMap: ["__typename": "GraphSubscription", "player": player.flatMap { (value: Player) -> ResultMap in value.resultMap }])
+    }
+
+    public var player: Player? {
+      get {
+        return (resultMap["player"] as? ResultMap).flatMap { Player(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "player")
+      }
+    }
+
+    public struct Player: GraphQLSelectionSet {
+      public static let possibleTypes = ["Player"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .scalar(String.self)),
+        GraphQLField("metadata", type: .list(.object(Metadatum.selections))),
+        GraphQLField("stats", type: .list(.object(Stat.selections))),
+        GraphQLField("segments", type: .list(.object(Segment.selections))),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(id: String? = nil, metadata: [Metadatum?]? = nil, stats: [Stat?]? = nil, segments: [Segment?]? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Player", "id": id, "metadata": metadata.flatMap { (value: [Metadatum?]) -> [ResultMap?] in value.map { (value: Metadatum?) -> ResultMap? in value.flatMap { (value: Metadatum) -> ResultMap in value.resultMap } } }, "stats": stats.flatMap { (value: [Stat?]) -> [ResultMap?] in value.map { (value: Stat?) -> ResultMap? in value.flatMap { (value: Stat) -> ResultMap in value.resultMap } } }, "segments": segments.flatMap { (value: [Segment?]) -> [ResultMap?] in value.map { (value: Segment?) -> ResultMap? in value.flatMap { (value: Segment) -> ResultMap in value.resultMap } } }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      /// System ID of the player.
+      public var id: String? {
+        get {
+          return resultMap["id"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      /// Metadata related to this player segment.
+      public var metadata: [Metadatum?]? {
+        get {
+          return (resultMap["metadata"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Metadatum?] in value.map { (value: ResultMap?) -> Metadatum? in value.flatMap { (value: ResultMap) -> Metadatum in Metadatum(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [Metadatum?]) -> [ResultMap?] in value.map { (value: Metadatum?) -> ResultMap? in value.flatMap { (value: Metadatum) -> ResultMap in value.resultMap } } }, forKey: "metadata")
+        }
+      }
+
+      /// All stats relating to the this player segment.
+      public var stats: [Stat?]? {
+        get {
+          return (resultMap["stats"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Stat?] in value.map { (value: ResultMap?) -> Stat? in value.flatMap { (value: ResultMap) -> Stat in Stat(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [Stat?]) -> [ResultMap?] in value.map { (value: Stat?) -> ResultMap? in value.flatMap { (value: Stat) -> ResultMap in value.resultMap } } }, forKey: "stats")
+        }
+      }
+
+      /// Player data segmented into logical pieces. Varies by title.
+      public var segments: [Segment?]? {
+        get {
+          return (resultMap["segments"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Segment?] in value.map { (value: ResultMap?) -> Segment? in value.flatMap { (value: ResultMap) -> Segment in Segment(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [Segment?]) -> [ResultMap?] in value.map { (value: Segment?) -> ResultMap? in value.flatMap { (value: Segment) -> ResultMap in value.resultMap } } }, forKey: "segments")
+        }
+      }
+
+      public struct Metadatum: GraphQLSelectionSet {
+        public static let possibleTypes = ["Metadata"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("key", type: .scalar(String.self)),
+          GraphQLField("name", type: .scalar(String.self)),
+          GraphQLField("value", type: .scalar(Dynamic.self)),
+          GraphQLField("displayValue", type: .scalar(String.self)),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(key: String? = nil, name: String? = nil, value: Dynamic? = nil, displayValue: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Metadata", "key": key, "name": name, "value": value, "displayValue": displayValue])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// The ID/key for the object.
+        public var key: String? {
+          get {
+            return resultMap["key"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "key")
+          }
+        }
+
+        /// Name of the object
+        public var name: String? {
+          get {
+            return resultMap["name"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "name")
+          }
+        }
+
+        /// Value of the object.
+        public var value: Dynamic? {
+          get {
+            return resultMap["value"] as? Dynamic
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "value")
+          }
+        }
+
+        /// Pre-formatted/localized value of the object.
+        public var displayValue: String? {
+          get {
+            return resultMap["displayValue"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "displayValue")
+          }
+        }
+      }
+
+      public struct Stat: GraphQLSelectionSet {
+        public static let possibleTypes = ["Statistic"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("metadata", type: .object(Metadatum.selections)),
+          GraphQLField("value", type: .scalar(Dynamic.self)),
+          GraphQLField("displayValue", type: .scalar(String.self)),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(metadata: Metadatum? = nil, value: Dynamic? = nil, displayValue: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Statistic", "metadata": metadata.flatMap { (value: Metadatum) -> ResultMap in value.resultMap }, "value": value, "displayValue": displayValue])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// The stat's metadata.
+        public var metadata: Metadatum? {
+          get {
+            return (resultMap["metadata"] as? ResultMap).flatMap { Metadatum(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "metadata")
+          }
+        }
+
+        /// Value of the statistic
+        public var value: Dynamic? {
+          get {
+            return resultMap["value"] as? Dynamic
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "value")
+          }
+        }
+
+        /// Pre-formatted/localized value of the statistic.
+        public var displayValue: String? {
+          get {
+            return resultMap["displayValue"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "displayValue")
+          }
+        }
+
+        public struct Metadatum: GraphQLSelectionSet {
+          public static let possibleTypes = ["StatisticMetadata"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("key", type: .nonNull(.scalar(String.self))),
+            GraphQLField("name", type: .scalar(String.self)),
+            GraphQLField("isReversed", type: .scalar(Bool.self)),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(key: String, name: String? = nil, isReversed: Bool? = nil) {
+            self.init(unsafeResultMap: ["__typename": "StatisticMetadata", "key": key, "name": name, "isReversed": isReversed])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          /// Key for referencing the statistic in code.
+          public var key: String {
+            get {
+              return resultMap["key"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "key")
+            }
+          }
+
+          /// Human friendly name for the stat.
+          public var name: String? {
+            get {
+              return resultMap["name"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "name")
+            }
+          }
+
+          /// Whether or not the statistic's value has a reversed importance. (ie. kills vs. deaths)
+          public var isReversed: Bool? {
+            get {
+              return resultMap["isReversed"] as? Bool
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "isReversed")
+            }
+          }
+        }
+      }
+
+      public struct Segment: GraphQLSelectionSet {
+        public static let possibleTypes = ["PlayerSegment"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("metadata", type: .list(.object(Metadatum.selections))),
+          GraphQLField("stats", type: .list(.object(Stat.selections))),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(metadata: [Metadatum?]? = nil, stats: [Stat?]? = nil) {
+          self.init(unsafeResultMap: ["__typename": "PlayerSegment", "metadata": metadata.flatMap { (value: [Metadatum?]) -> [ResultMap?] in value.map { (value: Metadatum?) -> ResultMap? in value.flatMap { (value: Metadatum) -> ResultMap in value.resultMap } } }, "stats": stats.flatMap { (value: [Stat?]) -> [ResultMap?] in value.map { (value: Stat?) -> ResultMap? in value.flatMap { (value: Stat) -> ResultMap in value.resultMap } } }])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// Metadata related to this player segment.
+        public var metadata: [Metadatum?]? {
+          get {
+            return (resultMap["metadata"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Metadatum?] in value.map { (value: ResultMap?) -> Metadatum? in value.flatMap { (value: ResultMap) -> Metadatum in Metadatum(unsafeResultMap: value) } } }
+          }
+          set {
+            resultMap.updateValue(newValue.flatMap { (value: [Metadatum?]) -> [ResultMap?] in value.map { (value: Metadatum?) -> ResultMap? in value.flatMap { (value: Metadatum) -> ResultMap in value.resultMap } } }, forKey: "metadata")
+          }
+        }
+
+        /// All stats relating to the this player segment.
+        public var stats: [Stat?]? {
+          get {
+            return (resultMap["stats"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Stat?] in value.map { (value: ResultMap?) -> Stat? in value.flatMap { (value: ResultMap) -> Stat in Stat(unsafeResultMap: value) } } }
+          }
+          set {
+            resultMap.updateValue(newValue.flatMap { (value: [Stat?]) -> [ResultMap?] in value.map { (value: Stat?) -> ResultMap? in value.flatMap { (value: Stat) -> ResultMap in value.resultMap } } }, forKey: "stats")
+          }
+        }
+
+        public struct Metadatum: GraphQLSelectionSet {
+          public static let possibleTypes = ["Metadata"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("key", type: .scalar(String.self)),
+            GraphQLField("name", type: .scalar(String.self)),
+            GraphQLField("value", type: .scalar(Dynamic.self)),
+            GraphQLField("displayValue", type: .scalar(String.self)),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(key: String? = nil, name: String? = nil, value: Dynamic? = nil, displayValue: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "Metadata", "key": key, "name": name, "value": value, "displayValue": displayValue])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          /// The ID/key for the object.
+          public var key: String? {
+            get {
+              return resultMap["key"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "key")
+            }
+          }
+
+          /// Name of the object
+          public var name: String? {
+            get {
+              return resultMap["name"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "name")
+            }
+          }
+
+          /// Value of the object.
+          public var value: Dynamic? {
+            get {
+              return resultMap["value"] as? Dynamic
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "value")
+            }
+          }
+
+          /// Pre-formatted/localized value of the object.
+          public var displayValue: String? {
+            get {
+              return resultMap["displayValue"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "displayValue")
+            }
+          }
+        }
+
+        public struct Stat: GraphQLSelectionSet {
+          public static let possibleTypes = ["Statistic"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("metadata", type: .object(Metadatum.selections)),
+            GraphQLField("value", type: .scalar(Dynamic.self)),
+            GraphQLField("displayValue", type: .scalar(String.self)),
+          ]
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(metadata: Metadatum? = nil, value: Dynamic? = nil, displayValue: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "Statistic", "metadata": metadata.flatMap { (value: Metadatum) -> ResultMap in value.resultMap }, "value": value, "displayValue": displayValue])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          /// The stat's metadata.
+          public var metadata: Metadatum? {
+            get {
+              return (resultMap["metadata"] as? ResultMap).flatMap { Metadatum(unsafeResultMap: $0) }
+            }
+            set {
+              resultMap.updateValue(newValue?.resultMap, forKey: "metadata")
+            }
+          }
+
+          /// Value of the statistic
+          public var value: Dynamic? {
+            get {
+              return resultMap["value"] as? Dynamic
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "value")
+            }
+          }
+
+          /// Pre-formatted/localized value of the statistic.
+          public var displayValue: String? {
+            get {
+              return resultMap["displayValue"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "displayValue")
+            }
+          }
+
+          public struct Metadatum: GraphQLSelectionSet {
+            public static let possibleTypes = ["StatisticMetadata"]
+
+            public static let selections: [GraphQLSelection] = [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("key", type: .nonNull(.scalar(String.self))),
+              GraphQLField("name", type: .scalar(String.self)),
+              GraphQLField("isReversed", type: .scalar(Bool.self)),
+            ]
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(key: String, name: String? = nil, isReversed: Bool? = nil) {
+              self.init(unsafeResultMap: ["__typename": "StatisticMetadata", "key": key, "name": name, "isReversed": isReversed])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            /// Key for referencing the statistic in code.
+            public var key: String {
+              get {
+                return resultMap["key"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "key")
+              }
+            }
+
+            /// Human friendly name for the stat.
+            public var name: String? {
+              get {
+                return resultMap["name"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "name")
+              }
+            }
+
+            /// Whether or not the statistic's value has a reversed importance. (ie. kills vs. deaths)
+            public var isReversed: Bool? {
+              get {
+                return resultMap["isReversed"] as? Bool
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "isReversed")
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class SearchQuery: GraphQLQuery {
   public let operationDefinition =
     "query Search($platform: String, $console: String, $title: String, $identifier: String, $comprehensive: Boolean, $exact: Boolean) {\n  players(platform: $platform, console: $console, title: $title, identifier: $identifier, comprehensive: $comprehensive, exact: $exact) {\n    __typename\n    results {\n      __typename\n      player {\n        __typename\n        playerId\n        handle\n      }\n      persona {\n        __typename\n        id\n        handle\n        pictureUrl\n        countryCode\n        region\n        isVerified\n        platform {\n          __typename\n          slug\n          name\n        }\n      }\n    }\n  }\n}"
