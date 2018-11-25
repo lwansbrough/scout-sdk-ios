@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'ScoutSDK'
-  s.version      = '0.1.1'
+  s.version      = '0.1.2'
   s.summary      = 'Build powerful gaming community apps with magic. Scout delivers gaming stats to apps and websites.'
 
   s.description  = <<-DESC
